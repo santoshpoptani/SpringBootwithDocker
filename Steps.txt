@@ -1,0 +1,89 @@
+# How to run postgres in Docker and connnection of SpringBoot
+
+First of All Create the docker-compose.yml file in root directory of your sprinboot appication
+
+```yaml
+services:
+  db:
+    container_name: postgres
+    image: postgres
+    environment:
+      POSTGRES_USER: santosh
+      POSTGRES_PASSWORD: password
+      PGDATA: /data/postgres
+    volumes:
+      - db:/data/postgres
+    ports:
+      - "5332:5432"
+    networks:
+      - db
+    restart: unless-stopped
+
+networks:
+  db:
+    driver: bridge
+
+volumes:
+  db:
+```
+
+This the yml configuration of file to run postgres image in docker
+
+> Imp :-  check proper indention spcaes in yml for error free code
+>
+
+Explanation of YML config file
+
+This configuration sets up a PostgreSQL database container using the official PostgreSQL image. Here's what each section does:
+
+- `services`: Defines the services that will run in containers. In this case, there is a service called "db" representing the PostgreSQL database.
+- `container_name`: Sets the name of the container to "postgres".
+- `image`: Specifies the Docker image to use, which is the official PostgreSQL image.
+- `environment`: Sets environment variables for the PostgreSQL container, including the username and password for the database.
+- `volumes`: Maps the "db" volume to the "/data/postgres" directory inside the container, ensuring that data is persisted even if the container is removed.
+- `ports`: Maps port 5332 on the host machine to port 5432 on the PostgreSQL container, allowing external access to the database.
+- `networks`: Creates a network called "db" to isolate the database service.
+- `restart`: Specifies the restart policy for the container, which is set to "unless-stopped" to automatically restart it unless explicitly stopped.
+- `networks.db.driver`: Defines the network driver as "bridge".
+- `volumes.db`: Creates a volume named "db" for persisting the PostgreSQL data.
+
+In summary, this configuration sets up a PostgreSQL database container with specified environment variables, volume mapping for data persistence, port mapping for external access, and network isolation.
+
+Now the Configuration file is set now lets run the docoker-compose.yml file
+
+to run this compose file we need to use command
+
+```powershell
+docker compose up -d
+//-d is detached mode
+```
+
+the above command will run the instruction in docker-compose.yml file and will create the container postgres conatianer in docker
+
+check the conatiner usning this command
+
+```powershell
+docker ps
+```
+
+once you see the conatainer running , lest go in conatiner
+
+```powershell
+docker exec -it postgres bash
+// postgres is the name of conatiner in this scenerio
+
+after that you will be inside caonatiner
+
+psql -U santosh
+// santosh is the username of postgres in this scenerio
+
+now you will be inside the postgres
+
+\l
+// this command will show all the database in postgres
+
+now to create the data base just write the create database command
+
+```
+
+thats how you create the database in docker postgres
