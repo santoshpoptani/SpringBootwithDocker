@@ -14,11 +14,11 @@ public class StudentEnity {
 
     @Id
     @SequenceGenerator(
-            name = "student_sequenece",
-            sequenceName = "student_sequence",
+            name = "student_id_seq",
+            sequenceName = "student_id_seq",
             allocationSize = 1
     )
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "student_sequence")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "student_id_seq")
     private long id;
     @Column(
             nullable = false

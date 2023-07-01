@@ -1,10 +1,8 @@
 package com.example.dockerspringboot.endpoits;
 
 import com.example.dockerspringboot.entity.StudentEnity;
-import com.example.dockerspringboot.service.StudentService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.example.dockerspringboot.service.StudentJDBCService;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -12,14 +10,23 @@ import java.util.List;
 @RequestMapping("/api/v1/student")
 public class Student {
 
-    private final StudentService studentService;
+private  final StudentJDBCService jdbcService;
 
-    public Student(StudentService studentService) {
-        this.studentService = studentService;
+    public Student(StudentJDBCService jdbcService) {
+        this.jdbcService = jdbcService;
     }
+
 
     @GetMapping
     public List<StudentEnity> getallstudents(){
-        return studentService.getStudents();
+        return jdbcService.getAllStudent();
+    }
+    @GetMapping("/{studentID}")
+    public StudentEnity getallstudents(@PathVariable("studentID") int id){
+        return jdbcService.getStudentById(id).get();
+    }
+   @PostMapping
+    public int saveStudent(@RequestBody StudentEnity studentEnity){
+      return jdbcService.saveStudent(studentEnity);
     }
 }

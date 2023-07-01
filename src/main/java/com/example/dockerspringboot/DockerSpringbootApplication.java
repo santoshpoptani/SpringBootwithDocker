@@ -22,9 +22,8 @@ public class DockerSpringbootApplication {
             for (int i = 0; i < 3; i++) {
                 String name = faker.name().fullName();
                 int age = faker.number().numberBetween(18, 30);
-                repository.save(new StudentEnity(name,age));
+               // repository.save(new StudentEnity(name, age));
             }
-
 
 
         };
